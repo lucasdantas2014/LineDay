@@ -1,26 +1,38 @@
 
 public class Disciplina {
-	private String Acronimo;
-	private String NomeProf;
-	private String NomeDisc;
+	private String acronimo;
+	private String nomeProf;
+	private String nomeDisc;
+	
+	public Disciplina(String acronimo, String nomeProf, String nomeDisc){
+		this.acronimo = acronimo;
+		this.nomeProf = nomeProf;
+		this.nomeDisc = nomeDisc;
+		
+	}
 	
 	public String getAcronimo() {
-		return Acronimo;
+		return this.acronimo;
 	}
 	public void setAcronimo(String acronimo) {
-		Acronimo = acronimo;
+		this.acronimo = acronimo;
 	}
 	public String getNomeProf() {
-		return NomeProf;
+		return nomeProf;
 	}
 	public void setNomeProf(String nomeProf) {
-		NomeProf = nomeProf;
+		this.nomeProf = nomeProf;
 	}
 	public String getNomeDisc() {
-		return NomeDisc;
+		return nomeDisc;
 	}
 	public void setNomeDisc(String nomeDisc) {
-		NomeDisc = nomeDisc;
+		this.nomeDisc = nomeDisc;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "-----\nAcronimo: " + this.acronimo + "\nNome Professor: " + this.nomeProf + "\nNome da Disciplina: " + this.nomeDisc;
 	}
 	
 }
