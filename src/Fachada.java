@@ -3,13 +3,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.*;
+import java.text.*;
+ 
 
 public class Fachada {
 	
 	//Iniciando Scaners
 	Scanner input = new Scanner(System.in); // INput Numerico
 	Scanner inputStr = new Scanner(System.in); // input de String
-	DateFormat formatoData = DateFormat.getDateInstance(); // Formatando data
+	SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); // Formatando data
     
     
 
@@ -51,10 +54,14 @@ public class Fachada {
 		
 		Date deadline = null;
 		
-		String x= inputStr.nextLine(); //pegando dados de um formulário WEB
-		SimpleDateFormat sdf1= new SimpleDateFormat("dd/MM/yyyy"); //você pode usar outras máscaras
-		Date dataUsuario=sdf1.parse(stx);
 
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			deadline = formato.parse(deadlineStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		//Discplina associada
@@ -186,6 +193,11 @@ public class Fachada {
 
 	public void exibirAtividadesArquivadas(Usuario user) {
 		user.exibirAtividadesArquivadas();
+		
+	}
+
+	public void exibirDatasAtividades(Usuario user) {
+		user.exibirDatasAtividades();
 		
 	}
 
