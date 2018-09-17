@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,18 +11,19 @@ public class Usuario {
 	private Disciplina[] disciplinas = new Disciplina[100];
 	
 	
-	public void CadastrarAtiv(String[] args){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Digite o nome da atividade: ");
-		String Nome = sc.next();
+	//Cadastrar Atividade
+	public void CadastrarAtiv(Atividade atividade){
 		
-		System.out.println(Nome);
-		
-		System.out.println("Digite alguma das tags prÃ©-programadas: Projeto; Prova; Monitoria; Miniteste; SeminÃ¡rio: ");
-		String Tags = sc.next();
-		
-		System.out.println(Tags);
-	}
+			for(int n = 0; n < this.disciplinas.length; n++){
+				if(this.atividades[n] == null){
+					this.atividades[n] = atividade;
+					break;
+				}
+			}
+			
+		}
+	
+	//Cadastrar Discilpina
 	public void CadastrarDisc(Disciplina disc){
 		int n;
 		for(n = 0; n < this.disciplinas.length; n++){
@@ -32,10 +34,13 @@ public class Usuario {
 		}
 		
 	}
+	
+	//Excluir Atividade
 	public void ExcluirAtiv(){
 		
 	}
 	
+	//Exibir todas as discilplinas percorrendo a lista
 	public void exibirDisciplinas(){
 		
 		for(int i=0;this.disciplinas[i] != null; i++){
@@ -43,29 +48,39 @@ public class Usuario {
 		}
 	}
 	
+	//Busca disicplinas pelo acronimo
 	public Disciplina buscarDiscPorAcronimo(String acronimo){
 		
 		for(int i=0; this.disciplinas[i] != null; i++){
 		    if(acronimo.equals(this.disciplinas[i].getAcronimo())){
 		    	
-		    	System.out.println("CHEGOU");
 		    	return this.disciplinas[i]; 
 		    	
 		    }
-		    else{
-		    	System.out.println(this.disciplinas[i].getAcronimo());
-		    	System.out.println(acronimo);
-		    	System.out.println(this.disciplinas[i].getAcronimo() == acronimo);
-		    	System.out.println("ED" == "ED");
-		    }
+		    	
 		    
 		}
+		//Caso nao encontre
 		System.out.println("NAO FOI ENCOPNTRADO");
 		return null;
 		
 	}
 	
+	//Exibir atividade percorrendo a lista
+	public void exibirAtividades(){
+			
+			for(int i=0;this.atividades[i] != null; i++){
+			    System.out.println(this.atividades[i]);
+			}
+		}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Usuario [Nome=" + Nome + ", Curso=" + Curso + ", tags=" + Arrays.toString(tags) + ", atividades="
+				+ Arrays.toString(atividades) + ", disciplinas=" + Arrays.toString(disciplinas) + "]";
+	}
 	public void EditarPerfil(){
 		
 	}
@@ -97,6 +112,15 @@ public class Usuario {
 	
 	public void setDisciplinas(Disciplina[] disciplinas) {
 		this.disciplinas = disciplinas;
+	}
+	public void adicionarTag(String novaTag) {
+		
+		for(int n = 0; n < this.tags.length; n++){
+			if(this.tags[n] == null){
+				this.tags[n] = novaTag;
+				break;
+			}
+		}
 	}
 	
 }
