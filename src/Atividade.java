@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Atividade {
 	private String nome;
@@ -52,5 +53,11 @@ public class Atividade {
 
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+
+	@Override
+	public String toString() {
+		return "Atividade [nome=" + nome + ", deadline=" + deadline + ", tags=" + Arrays.toString(tags) + ", andamento="
+				+ andamento + ", disciplina=" + disciplina + "]";
 	}
 }
