@@ -1,3 +1,4 @@
+import java.awt.datatransfer.SystemFlavorMap;
 import java.util.Scanner;
 import java.util.concurrent.SynchronousQueue;
 
@@ -9,8 +10,16 @@ public class Main {
 		System.out.println("1 - Editar Usuario ");
 		System.out.println("2 - Cadastrar Atividades:");
 		System.out.println("3 - Cadastrar Discplina");
-		System.out.println("4 - Exibir Atividades");
-		System.out.println("5 - Buscar Disciplina por Acronimo");
+		System.out.println("4 - Exibir Disciplina");
+		System.out.println("5 - Exibir Atividades");
+		System.out.println("6 - Buscar Disciplina por Acronimo");
+		System.out.println("7 - Adicionar tag");
+		System.out.println("8 - Excluir atvididade");
+		System.out.println("9 - Exibir Arquivados");
+		System.out.println("9 - Exibir Datas");
+
+
+		
 
 	}
 	
@@ -18,6 +27,7 @@ public class Main {
 		Scanner inputStr = new Scanner(System.in); // Scaner String
 		Scanner input = new Scanner(System.in); // Scaner Int e outros
 
+		Fachada fachada = new Fachada();
 		Usuario user = new Usuario(); // Usuario
 		int opcao; // 
 		menu();
@@ -26,50 +36,55 @@ public class Main {
 		while (opcao != 0){
 			
 			
-//			Editar opcoes do usuario
-			if(opcao == 1){
+//			Editar opcoes do usuario 
+			if(opcao == 1){		
 				
-				//Leitura do novo nome e curso
-				String nome = inputStr.nextLine();
-				String curso = inputStr.nextLine();
-				
-				//Set Nome e Curso
-				user.setNome(nome);
-				user.setCurso(curso);
-				System.out.println(user.getNome());
+				fachada.editarUsuario(user);;
 				
 			}
+			
+			//Adicionando atividades 
 			else if(opcao == 2){
-				String nomeAtv = inputStr.nextLine();
-				String deadline = inputStr.nextLine();
-				
-				String acronimo = inputStr.nextLine();
-				Disciplina disc = user.buscarDiscPorAcronimo(acronimo);
-				
-				Atividade atv = new Atividade(nomeAtv,deadline,tags,disc);
+				fachada.cadastrarAtividade(user);
 			}
 			
-			else if(opcao == 3){
-				
-				String acronimo = inputStr.nextLine();
-				String nomeProf = inputStr.nextLine();
-				String nomeDisc = inputStr.nextLine();
-				
-				Disciplina disciplina = new Disciplina(acronimo,nomeProf,nomeDisc);
-				user.CadastrarDisc(disciplina);
+			//Cadastrando disciplina
+			else if(opcao == 3){				
+				fachada.cadastrarDisicplina(user);
 				
 			}
-			
+			//Exibir Disciplina
 			else if(opcao == 4){
-				user.exibirDisciplinas();
+				fachada.exibirDisciplinas(user);
 			}
 			
+			//Exibir Atividade			
 			else if(opcao == 5){
+				fachada.exibirAtividades(user);
+			}
+			
+			//Buscar Por Acronimo
+			else if(opcao == 6){
+				fachada.buscarPorAcronimo(user);
+			}
+			
+			//Adicionar Tag
+			else if(opcao == 7){
+				fachada.adicionarTag(user);
+			}
+			
+			//Excluir Atividade Por indice
+			else if(opcao == 8){
+				fachada.excluirAtividadePorIndice(user);
 				
-				String acronimo = inputStr.nextLine();
-				Disciplina disc;
-				disc = user.buscarDiscPorAcronimo(acronimo);
-				System.out.println(disc);
+			//Exibir atividades Arquivadas
+			}
+			else if(opcao == 9){
+				fachada.exibirAtividadesArquivadas(user);
+				
+			}
+			else if(opcao == 10){
+				fachada.exibirDatasAtividades(user);
 				
 			}
 			menu();
