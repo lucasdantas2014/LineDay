@@ -1,16 +1,18 @@
 import java.util.Arrays;
+import java.util.Date;
 
 public class Atividade {
 	private String nome;
-	private String deadline;
+	private Date deadline;
 	private String[] tags = new String[50];
 	private boolean andamento;
 	private Disciplina disciplina;
 	
-	public Atividade(String nome,String deadline, String[] tags, Disciplina disciplina){
+	public Atividade(String nome,Date deadline, String[] tags, Disciplina disciplina){
 		this.nome = nome;
 		this.deadline = deadline;
 		this.tags = tags;
+		this.andamento = true;
 		this.disciplina = disciplina;
 		
 	}
@@ -23,11 +25,11 @@ public class Atividade {
 		this.nome = nome;
 	}
 
-	public String getDeadline() {
+	public Date getDeadline() {
 		return deadline;
 	}
 
-	public void setDeadline(String deadline) {
+	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
 
