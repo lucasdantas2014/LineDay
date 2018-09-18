@@ -65,7 +65,7 @@ public class Atividade {
 	
 	public class Atividade implements Comparable<Atividade>{
 		public int compareTo(Atividade outraAtividade) {
-			return this.deadline.compareTo(outraAtividade.getDeadline();
+			return deadline.compareTo(outraAtividade.getDeadline();
 		}
 	}
 }
