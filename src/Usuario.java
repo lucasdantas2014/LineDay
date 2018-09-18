@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,12 +15,14 @@ public class Usuario {
 	private Atividade[] atividades = new Atividade[1000];
 	private Atividade[] atividadesArquivadas = new Atividade[1000];
 	private Disciplina[] disciplinas = new Disciplina[100];
+
+  private int qtd_atividades = 0;
 	
 	//Ordena as atividades
 	public void ordenarAtividades() {
-	for (int i = 0; i < atividades.length - 1; ++i) {
+	for (int i = 0; i < qtd_atividades - 1; ++i) {
 	    Atividade tmp = atividades[i];
-	    for (int j = i + 1; j < atividades.length; ++j) {
+	    for (int j = i + 1; j < qtd_atividades; ++j) {
 		Atividade tmp2 = atividades[j];
 		if (tmp.getDeadline().compareTo(tmp2.getDeadline()) > 0) {
 		    Atividade temp = tmp;
@@ -34,19 +35,14 @@ public class Usuario {
 
 	// Cadastrar Atividade
 	public void CadastrarAtiv(Atividade atividade) {
+    this.qtd_atividades++;
 		Date data = atividade.getDeadline();
 		for (int n = 0; n < this.atividades.length; n++) {
-			
-			Date proximaData = this.atividades[n + 1].getDeadline();
-			if(data.before(proximaData)){
-				Atividade 
-			}
 			if (this.atividades[n] == null) {
 				this.atividades[n] = atividade;
 				break;
 			}
 		}
-
 	}
 
 	// Cadastrar Discilpina
@@ -77,18 +73,13 @@ public class Usuario {
 			}
 		}
 		// Caso nao encontre
-		System.out.println("NAO FOI ENCOPNTRADO");
+		System.out.println("NAO FOI ENCONTRADO");
 		return null;
 	}
 
 	// Exibir atividade e indice percorrendo a lista
 	public void exibirAtividades() {
-		for (int n = 0; this.atividades[n] != null; n++) {
-			System.out.println(n + " - " + this.atividades[n]);
-		}
-	}
-	
-	public void exibirAtividades() {
+    this.ordenarAtividades();
 		for (int n = 0; this.atividades[n] != null; n++) {
 			System.out.println(n + " - " + this.atividades[n]);
 		}
