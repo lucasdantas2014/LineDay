@@ -17,41 +17,20 @@ public class Usuario {
 	private Atividade[] atividadesArquivadas = new Atividade[1000];
 	private Disciplina[] disciplinas = new Disciplina[100];
 	
-//	
-//	public void ordenaAtividades(){
-//	
-//	this a[], int p, int r) {
-//		    int i;
-//		    for (i = p+1; i <= r; i++) {
-//		       int j = i, v = a[i];
-//		       while (p <= j-1 && v < a[j-1]) {
-//		          a[j] = a[j-1];
-//		          j--;
-//		       }
-//		       a[j] = v;
-//		    } 
-//		}
-//		
-//		
-//		
-//		
-//	Date menor = this.atividades[]
-//	for (int n = 0; n < this.atividades.length; n++) {
-//		
-//		Date data = this.atividades[n].getDeadline();
-//		for (int m = 0; m < this.atividades.length; m++) {
-//			Date proximaData = this.atividades[n + 1].getDeadline();
-//		
-//			if(data.before(proximaData)){
-//				Atividade 
-//			}
-//			if (this.atividades[n] == null) {
-//				this.atividades[n] = atividade;
-//				break;
-//			}
-//		}
-//	}
-//	}
+	//Ordena as atividades
+	public void ordenarAtividades() {
+	for (int i = 0; i < atividades.length - 1; ++i) {
+	    Atividade tmp = atividades[i];
+	    for (int j = i + 1; j < atividades.length; ++j) {
+		Atividade tmp2 = atividades[j];
+		if (tmp.getDeadline().compareTo(tmp2.getDeadline()) > 0) {
+		    Atividade temp = tmp;
+		    atividades[i] = tmp2;
+		    atividades[j] =temp;
+		}
+	    }
+	}
+	}
 
 	// Cadastrar Atividade
 	public void CadastrarAtiv(Atividade atividade) {
