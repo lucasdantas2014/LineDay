@@ -62,4 +62,10 @@ public class Atividade {
 		return "Atividade [nome=" + nome + ", deadline=" + deadline + ", tags=" + Arrays.toString(tags) + ", andamento="
 				+ andamento + ", disciplina=" + disciplina + "]";
 	}
+	
+	public class Atividade implements Comparable<Atividade>{
+		public int compareTo(Atividade outraAtividade) {
+			return this.deadline.compareTo(outraAtividade.getDeadline();
+		}
+	}
 }
