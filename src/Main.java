@@ -16,11 +16,7 @@ public class Main {
 		System.out.println("7 - Adicionar tag");
 		System.out.println("8 - Excluir atvididade");
 		System.out.println("9 - Exibir Arquivados");
-		System.out.println("9 - Exibir Datas");
-
-
-		
-
+		System.out.println("10 - Exibir Datas");
 	}
 	
 	public static void main(String[] args) {
