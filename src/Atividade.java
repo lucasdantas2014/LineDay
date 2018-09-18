@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Date;
 
-public class Atividade {
+public class Atividade implements Comparable<Atividade>{
 	private String nome;
 	private Date deadline;
 	private String[] tags = new String[50];
@@ -62,10 +62,8 @@ public class Atividade {
 		return "Atividade [nome=" + nome + ", deadline=" + deadline + ", tags=" + Arrays.toString(tags) + ", andamento="
 				+ andamento + ", disciplina=" + disciplina + "]";
 	}
-	
-	public class Atividade implements Comparable<Atividade>{
-		public int compareTo(Atividade outraAtividade) {
-			return deadline.compareTo(outraAtividade.getDeadline();
+
+  public int compareTo(Atividade outraAtividade) {
+			return this.deadline.compareTo(outraAtividade.getDeadline());
 		}
-	}
 }
