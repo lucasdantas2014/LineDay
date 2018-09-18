@@ -1,4 +1,3 @@
-
 public class Disciplina {
 	private String acronimo;
 	private String nomeProf;
