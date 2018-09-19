@@ -59,8 +59,13 @@ public class Atividade implements Comparable<Atividade>{
 
 	@Override
 	public String toString() {
-		return "Atividade [nome=" + nome + ", deadline=" + deadline + ", tags=" + Arrays.toString(tags) + ", andamento="
-				+ andamento + ", disciplina=" + disciplina + "]";
+		String tagsStr = "";
+		for (int i = 0; this.tags[i] != null; i++) {
+			tagsStr += "   " + i + " - " + this.tags[i] + ".";
+			
+		}
+		return nome + "\nDeadLine:" + deadline + "\nTags:" + tagsStr + "\nAndamento "
+				+ andamento + "         disciplina: " + disciplina + "\n";
 	}
 
   public int compareTo(Atividade outraAtividade) {
