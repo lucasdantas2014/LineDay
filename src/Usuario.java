@@ -15,6 +15,15 @@ public class Usuario {
 	private Atividade[] atividades = new Atividade[1000];
 	private Atividade[] atividadesArquivadas = new Atividade[1000];
 	private Disciplina[] disciplinas = new Disciplina[100];
+	
+	
+	public Usuario(){
+		this.tags[0] = "Importante";
+		this.tags[1] = "Escola";
+		this.tags[2] = "Não Esquecer";
+		this.tags[3] = "Revisão";
+		
+	}
 
   private int qtd_atividades = 0;
 	
@@ -27,7 +36,7 @@ public class Usuario {
 		if (tmp.getDeadline().compareTo(tmp2.getDeadline()) > 0) {
 		    Atividade temp = tmp;
 		    atividades[i] = tmp2;
-		    atividades[j] =temp;
+		    atividades[j] = temp;
 		}
 	    }
 	}
@@ -81,21 +90,23 @@ public class Usuario {
 	public void exibirAtividades() {
     this.ordenarAtividades();
 		for (int n = 0; this.atividades[n] != null; n++) {
-			System.out.println(n + " - " + this.atividades[n]);
+			System.out.println("<<----------------------------->>");
+			System.out.println("id da atividade: " + n + " - " + this.atividades[n]);
+			System.out.println("<<----------------------------->>");
+
 		}
 	}
 
 	// Exibir atividade arquivadas e indice percorrendo a lista
 	public void exibirAtividadesArquivadas() {
-		System.out.println("OIIIIII");
 		for (int n = 0; this.atividadesArquivadas[n] != null; n++) {
-			System.out.println("EDDEDEDED");
 
 			System.out.println(n + " - " + this.atividadesArquivadas[n]);
 		}
 	}
 	
 
+	//Exibir datas da atividade
 	public void exibirDatasAtividades() {
 		
 		SimpleDateFormat sdf1= new SimpleDateFormat("dd/MM/yyyy"); //você pode usar outras máscaras 
@@ -122,6 +133,7 @@ public class Usuario {
 
 	// Excluir Atividade POr indice
 	public void ExcluirAtividadePorIndice(int indice) {
+		this.qtd_atividades--;
 		this.atividades[indice] = null;
 		Atividade aux;
 		for (int n = indice; n < this.atividades.length - 1; n++) {
@@ -148,8 +160,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [Nome=" + Nome + ", Curso=" + Curso + ", tags=" + Arrays.toString(tags) + ", atividades="
-				+ Arrays.toString(atividades) + ", disciplinas=" + Arrays.toString(disciplinas) + "]";
+		return "Nome: " + this.Nome + "\nCurso: " + this.Curso;
 	}
 
 	public void EditarPerfil() {
