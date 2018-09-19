@@ -30,8 +30,7 @@ public class Disciplina {
 	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "-----\nAcronimo: " + this.acronimo + "\nNome Professor: " + this.nomeProf + "\nNome da Disciplina: " + this.nomeDisc;
+		return "  Acronimo: " + this.acronimo + "\nNome Professor: " + this.nomeProf + "\nNome da Disciplina: " + this.nomeDisc;
 	}
 	
 }
