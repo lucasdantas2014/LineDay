@@ -1,4 +1,6 @@
 import java.awt.datatransfer.SystemFlavorMap;
+import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.SynchronousQueue;
 
@@ -7,6 +9,7 @@ public class Main {
 	public static void menu(){
 		
 		System.out.println("------Menu------");
+		System.out.println("0 - Sair ");
 		System.out.println("1 - Editar Usuario ");
 		System.out.println("2 - Cadastrar Atividades:");
 		System.out.println("3 - Cadastrar Discplina");
@@ -25,68 +28,81 @@ public class Main {
 
 		Fachada fachada = new Fachada();
 		Usuario user = new Usuario(); // Usuario
-		int opcao; // 
-		menu();
-		opcao = input.nextInt();
+		int opcao = -1; // 
 		
-		while (opcao != 0){
+		boolean executar = true;
+		
+		
+		while (executar){
+			menu(); // Funcao de exibir menu
+			try{
+				System.out.println("CHEGUEI AQUI");
+				opcao = input.nextInt();
+			} catch (InputMismatchException e){
+				System.out.println("!!! Digite um numero inteiro exemplo: 1 ou 2 ou 3...");
+			}
+			finally{
 			
-			
-//			Editar opcoes do usuario 
-			if(opcao == 1){		
+				//Sair do Programa
+				if(opcao == 0){
+					executar = false;
+				}
 				
-				fachada.editarUsuario(user);;
+				//Editar opcoes do usuario 
+				if(opcao == 1){		
+					
+					fachada.editarUsuario(user);;
+					
+				}
 				
-			}
-			
-			//Adicionando atividades 
-			else if(opcao == 2){
-				fachada.cadastrarAtividade(user);
-			}
-			
-			//Cadastrando disciplina
-			else if(opcao == 3){				
-				fachada.cadastrarDisicplina(user);
+				//Adicionando atividades 
+				else if(opcao == 2){
+					fachada.cadastrarAtividade(user);
+				}
 				
-			}
-			//Exibir Disciplina
-			else if(opcao == 4){
-				fachada.exibirDisciplinas(user);
-			}
-			
-			//Exibir Atividade			
-			else if(opcao == 5){
-				fachada.exibirAtividades(user);
-			}
-			
-			//Buscar Por Acronimo
-			else if(opcao == 6){
-				fachada.buscarPorAcronimo(user);
-			}
-			
-			//Adicionar Tag
-			else if(opcao == 7){
-				fachada.adicionarTag(user);
-			}
-			
-			//Excluir Atividade Por indice
-			else if(opcao == 8){
-				fachada.excluirAtividadePorIndice(user);
+				//Cadastrando disciplina
+				else if(opcao == 3){				
+					fachada.cadastrarDisicplina(user);
+					
+				}
+				//Exibir Disciplina
+				else if(opcao == 4){
+					fachada.exibirDisciplinas(user);
+				}
 				
-			//Exibir atividades Arquivadas
-			}
-			else if(opcao == 9){
-				fachada.exibirAtividadesArquivadas(user);
+				//Exibir Atividade			
+				else if(opcao == 5){
+					fachada.exibirAtividades(user);
+				}
 				
-			}
-			else if(opcao == 10){
-				fachada.exibirDatasAtividades(user);
+				//Buscar Por Acronimo
+				else if(opcao == 6){
+					fachada.buscarPorAcronimo(user);
+				}
 				
+				//Adicionar Tag
+				else if(opcao == 7){
+					fachada.adicionarTag(user);
+				}
+				
+				//Excluir Atividade Por indice
+				else if(opcao == 8){
+					fachada.excluirAtividadePorIndice(user);
+					
+				//Exibir atividades Arquivadas
+				}
+				else if(opcao == 9){
+					fachada.exibirAtividadesArquivadas(user);
+					
+				}
+				else if(opcao == 10){
+					fachada.exibirDatasAtividades(user);
+					
+				}
 			}
-			menu();
-			opcao = input.nextInt();
-
 		}
+		
+		
 		
 		
 
