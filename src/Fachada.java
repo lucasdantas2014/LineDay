@@ -59,7 +59,6 @@ public class Fachada {
 		try {
 			deadline = formato.parse(deadlineStr);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -129,8 +128,11 @@ public class Fachada {
 	
 	//Cadastro de disciplina
 	public void cadastrarDisicplina(Usuario user) {
+		System.out.println("Digite o acronimo da Disciplina: ");
 		String acronimo = inputStr.nextLine();
+		System.out.println("Digite op nome do professor: ");
 		String nomeProf = inputStr.nextLine();
+		System.out.println("Digite o nome da Disicplina: ");
 		String nomeDisc = inputStr.nextLine();
 		
 		Disciplina disciplina = new Disciplina(acronimo,nomeProf,nomeDisc);
@@ -170,7 +172,6 @@ public class Fachada {
 	public void adicionarTag(Usuario user){
 		System.out.println("Digite a nova tag:");
 		String novaTag = inputStr.nextLine();
-		user.adicionarTag(novaTag);
 		user.adicionarTag(novaTag);
 	}
 
