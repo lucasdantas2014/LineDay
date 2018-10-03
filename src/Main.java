@@ -44,7 +44,6 @@ public class Main
     while (executar) {
       menu();
       try {
-        System.out.println("CHEGUEI AQUI");
         opcao = Integer.parseInt(inputStr.next());
         
 
@@ -108,6 +107,7 @@ public class Main
       }
       catch (Exception e)
       {
+    	System.out.println(e);
         System.out.println("!!! Digite um numero inteiro exemplo: 1 ou 2 ou 3...");
       }
     }

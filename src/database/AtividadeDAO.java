@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 import model.Atividade;
+
+import java.sql.PreparedStatement;
 
 public class AtividadeDAO extends DAO{
 	public void insert(Atividade atividade){
@@ -19,7 +20,7 @@ public class AtividadeDAO extends DAO{
 
 	          pstmt.setString(1, atividade.getNome());
 	          pstmt.setDate(2, (Date) atividade.getDeadline());
-	          pstmt.setInt(3, atividade.getDisciplina());
+//	          pstmt.setInt(3, atividade.getDisciplina());
 
 
 	      } catch (SQLException ex) {

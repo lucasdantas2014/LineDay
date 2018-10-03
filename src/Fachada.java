@@ -30,11 +30,17 @@ public class Fachada
     boolean continuarEdicao = true;
     while (continuarEdicao) {
       System.out.println(user);
-      System.out.println("0 - terminar ediÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o");
+      System.out.println("0 - terminar edição");
       System.out.println("1 - mudar nome");
       System.out.println("2 - mudar curso");
+      int op = -1;
       
-      int op = input.nextInt();
+      try{
+    	  op = Integer.parseInt(input.nextLine());
+      }catch (Exception e) {
+		System.out.println("Digite um numero inteiro; exemplo: 1 ou 2 ou 3...");
+      }
+      
       if (op == 0) {
         break;
       }
@@ -50,21 +56,26 @@ public class Fachada
       }
     }
     
-    userDAO.update(user);
+//    userDAO.update(user);
   }
   
 
   public void cadastrarAtividade(Usuario user)
   {
+	  
+	 
     System.out.println("Digite o nome da Atividae:");
     String nomeAtv = inputStr.nextLine();
     System.out.println("Digite a data final para entrega:");
     String deadlineStr = inputStr.nextLine();
     
+    //leitura do tipo de data
     Date deadline = null;
     
 
+    //Formatação do tipo dd/mm/yyyy
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    
     try {
       deadline = formato.parse(deadlineStr);
     } catch (ParseException e) {
@@ -72,7 +83,17 @@ public class Fachada
     }
     
 
-
+    //Se não houver disciplina cadastrada
+    if(user.getDisciplinas()[0] == null){
+    	System.out.println("Você não tem nehuma disciplina Cadastrada.");
+    	System.out.println("Digite 1 para cadastrar uma disciplina");
+//    	System.out.println("Digite 2 para cadastrar atividade sem associar a uma disciplina");
+    	
+    	int escolha = input.nextInt();
+    	if(escolha == 1){
+    		cadastrarDisicplina(user);
+    	}
+    }
     System.out.println("Digite o acronimo da discilpna desejada:");
     String acronimo = inputStr.nextLine();
     
@@ -99,7 +120,7 @@ public class Fachada
         break;
       }
       if (opTag == 1) {
-        System.out.println("Digite o nÃƒÆ’Ã‚Âºmero referente a tag que deseja acrescentar a essa atividade:");
+        System.out.println("Digite o número referente a tag que deseja acrescentar a essa atividade:");
         System.out.println("-1 Para voltar");
         
 
@@ -134,6 +155,7 @@ public class Fachada
     
     user.CadastrarAtiv(atv);
   }
+  //Fim da funcao de cadastrar atividade
   
   public void cadastrarDisicplina(Usuario user)
   {

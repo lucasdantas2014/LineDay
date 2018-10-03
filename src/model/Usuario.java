@@ -1,4 +1,5 @@
 package model;
+
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,13 +11,15 @@ public class Usuario
 {
   private String Nome;
   private String Curso;
-  private String[] tags;
-  private Atividade[] atividades;
-  private Atividade[] atividadesArquivadas;
-  private Disciplina[] disciplinas;
+  private String[] tags = new String[50];
+  private Atividade[] atividades = new Atividade[1000];
+  private Atividade[] atividadesArquivadas = new Atividade[1000];
+  private Disciplina[] disciplinas = new Disciplina[100];
   private int qtd_atividades;
   
-  public Usuario() {}
+  public Usuario() {
+	  
+  }
   
   public void ordenarAtividades()
   {
@@ -37,6 +40,7 @@ public class Usuario
   {
     qtd_atividades += 1;
     Date data = atividade.getDeadline();
+    System.out.println(atividades.length);
     for (int n = 0; n < atividades.length; n++) {
       if (atividades[n] == null) {
         atividades[n] = atividade;
@@ -48,6 +52,7 @@ public class Usuario
 
   public void CadastrarDisc(Disciplina disc)
   {
+	  
     for (int n = 0; n < disciplinas.length; n++) {
       if (disciplinas[n] == null) {
         disciplinas[n] = disc;
@@ -157,50 +162,75 @@ public class Usuario
 
   public void EditarPerfil() {}
   
-  public String getNome()
-  {
-    return Nome;
-  }
+ 
   
-  public void setNome(String nome) {
-    Nome = nome;
-  }
-  
-  public String getCurso() {
-    return Curso;
-  }
-  
-  public void setCurso(String curso) {
-    Curso = curso;
-  }
-  
-  public String[] getTags() {
-    return tags;
-  }
-  
-  public void setTags(String[] tags) {
-    this.tags = tags;
-  }
-  
-  public Atividade[] getAtividades() {
-    return atividades;
-  }
-  
-  public void setAtividades(Atividade[] atividades) {
-    this.atividades = atividades;
-  }
-  
-  public void setDisciplinas(Disciplina[] disciplinas) {
-    this.disciplinas = disciplinas;
-  }
-  
-  public void adicionarTag(String novaTag)
-  {
-    for (int n = 0; n < tags.length; n++) {
-      if (tags[n] == null) {
-        tags[n] = novaTag;
-        break;
-      }
-    }
-  }
+	  public String getNome() {
+		return Nome;
+	}
+	
+	public void setNome(String nome) {
+		Nome = nome;
+	}
+	
+	public String getCurso() {
+		return Curso;
+	}
+	
+	public void setCurso(String curso) {
+		Curso = curso;
+	}
+	
+	public String[] getTags() {
+		return tags;
+	}
+	
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+	
+	public Atividade[] getAtividades() {
+		return atividades;
+	}
+	
+	public void setAtividades(Atividade[] atividades) {
+		this.atividades = atividades;
+	}
+	
+	public Atividade[] getAtividadesArquivadas() {
+		return atividadesArquivadas;
+	}
+	
+	public void setAtividadesArquivadas(Atividade[] atividadesArquivadas) {
+		this.atividadesArquivadas = atividadesArquivadas;
+	}
+	
+	public Disciplina[] getDisciplinas() {
+		return disciplinas;
+	}
+	
+	public void setDisciplinas(Disciplina[] disciplinas) {
+		this.disciplinas = disciplinas;
+	}
+	
+	public int getQtd_atividades() {
+		return qtd_atividades;
+	}
+	
+	public void setQtd_atividades(int qtd_atividades) {
+		this.qtd_atividades = qtd_atividades;
+	}
+	
+	public void adicionarTag(String novaTag)
+	  {
+		int n = 0;
+		String[] tags = getTags();
+	    for (n = 0; n < 50; n++) {
+	      if (tags[n] == null) {
+	        tags[n] = novaTag;
+	        break;
+	      }
+	    }
+	  }
+	
+	
 }
