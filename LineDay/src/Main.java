@@ -2,6 +2,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 import database.DAO;
+import model.Ferramentas;
 import model.Usuario;
 
 
@@ -44,16 +45,16 @@ public class Main
     while (executar) {
       menu();
       try {
-        opcao = Integer.parseInt(inputStr.next());
+        opcao = Ferramentas.leitorInteiro();
         
 
 
-
+        //Sair do Sistema
         if (opcao == 0) {
           executar = false;
         }
         
-
+        //Editar Usuario
         if (opcao == 1)
         {
           fachada.editarUsuario(user);

@@ -18,6 +18,9 @@ public class Usuario
   private int qtd_atividades;
   
   public Usuario() {
+	  this.tags[0] = "Dificil";
+	  this.tags[1] = "Importante";
+	  this.tags[2] = "Lembrar";
 	  
   }
   

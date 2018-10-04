@@ -8,6 +8,7 @@ import java.util.Scanner;
 import database.UsuarioDAO;
 import model.Atividade;
 import model.Disciplina;
+import model.Ferramentas;
 import model.Usuario;
 
 
@@ -25,8 +26,13 @@ public class Fachada
   public Fachada() {}
   
 
+//  Editar Usuario(op ==1)
   public void editarUsuario(Usuario user) throws SQLException
   {
+	  System.out.println("\n\n--------------------------");
+		System.out.println("  Editar usuario");
+		System.out.println("--------------------------\n\n"); 
+	
     boolean continuarEdicao = true;
     while (continuarEdicao) {
       System.out.println(user);
@@ -36,7 +42,7 @@ public class Fachada
       int op = -1;
       
       try{
-    	  op = Integer.parseInt(input.nextLine());
+    	  op = Ferramentas.leitorInteiro();
       }catch (Exception e) {
 		System.out.println("Digite um numero inteiro; exemplo: 1 ou 2 ou 3...");
       }
@@ -62,25 +68,18 @@ public class Fachada
 
   public void cadastrarAtividade(Usuario user)
   {
-	  
-	 
+	System.out.println("\n\n--------------------------");
+	System.out.println("  Cadastro de Atividade");
+	System.out.println("--------------------------\n\n");
+    
     System.out.println("Digite o nome da Atividae:");
     String nomeAtv = inputStr.nextLine();
-    System.out.println("Digite a data final para entrega:");
-    String deadlineStr = inputStr.nextLine();
+    System.out.println("Digite a data final para entrega(Coloque no formati dd/MM/yyyy):");
     
     //leitura do tipo de data
-    Date deadline = null;
-    
+    Date deadline = Ferramentas.leitorDate();
 
-    //Formatação do tipo dd/mm/yyyy
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
-    try {
-      deadline = formato.parse(deadlineStr);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
     
 
     //Se não houver disciplina cadastrada
@@ -89,30 +88,40 @@ public class Fachada
     	System.out.println("Digite 1 para cadastrar uma disciplina");
 //    	System.out.println("Digite 2 para cadastrar atividade sem associar a uma disciplina");
     	
-    	int escolha = input.nextInt();
+    	int escolha = Ferramentas.leitorInteiro();
+    	
     	if(escolha == 1){
     		cadastrarDisicplina(user);
     	}
     }
-    System.out.println("Digite o acronimo da discilpna desejada:");
-    String acronimo = inputStr.nextLine();
     
+    Disciplina disc = null;
+    while(disc == null){
+	    System.out.println("Digite o acronimo da discilpna desejada:");
+	    String acronimo = inputStr.nextLine();
+	    
+	
+	    disc = user.buscarDiscPorAcronimo(acronimo);
 
-    Disciplina disc = user.buscarDiscPorAcronimo(acronimo);
-    
-
+    }
     boolean maisTags = true;
     
     String[] tags = new String[50];
     
     while (maisTags)
     {
-
+      System.out.println("Tags que já foram adicionadas a esta atividade:");
+      for(int index = 0; index < tags.length; index++ ){
+    	  if(tags[index] == null){
+    		  break;
+    	  }
+    	  System.out.println( " ° " + tags[index]);
+      }
       System.out.println("0-Salvar Atividade");
       System.out.println("1-Escolher entre as tags predefinidas");
-      System.out.println("2-Definir uma nova tag");
+      System.out.println("2-Definir uma nova tag e associa-la a atividade");
       
-      int opTag = input.nextInt();
+      int opTag = Ferramentas.leitorInteiro();
       
 
       if (opTag == 0) {
@@ -127,7 +136,7 @@ public class Fachada
         user.exibirTags();
         
 
-        int indexTag = input.nextInt();
+        int indexTag = Ferramentas.leitorInteiro();
         if (indexTag != -1)
         {
 
@@ -155,10 +164,16 @@ public class Fachada
     
     user.CadastrarAtiv(atv);
   }
-  //Fim da funcao de cadastrar atividade
   
+// Cadastrar Dsciplina
   public void cadastrarDisicplina(Usuario user)
   {
+	System.out.println("\n\n--------------------------");
+	System.out.println("  Cadastro de Disciplina");
+	System.out.println("--------------------------\n\n");
+	
+	
+	//Lendo Dados da disciplina(acronimo, professor, nome)
     System.out.println("Digite o acronimo da Disciplina: ");
     String acronimo = inputStr.nextLine();
     System.out.println("Digite op nome do professor: ");
@@ -170,19 +185,33 @@ public class Fachada
     user.CadastrarDisc(disciplina);
   }
   
+//  Percorre a lisa e exibe as disciplinas
   public void exibirDisciplinas(Usuario user)
   {
+    System.out.println("\n\n--------------------------");
+	System.out.println("  Exibir Disciplinas");
+	System.out.println("--------------------------\n\n");
+	
     user.exibirAtividades();
   }
   
+//Percorre a lisa e exibe as disciplinas
   public void exibirAtividades(Usuario user)
   {
+	System.out.println("\n\n--------------------------");
+	System.out.println("  Exibir Atividades");
+	System.out.println("--------------------------\n\n");
+	
     user.exibirAtividades();
   }
   
 
+//Busca por Acronimo por acronimo
   public void buscarPorAcronimo(Usuario user)
   {
+	System.out.println("\n\n--------------------------");
+	System.out.println("  Buscar Por Acronimo");
+	System.out.println("--------------------------\n\n");
     String acronimo = inputStr.nextLine();
     
     Disciplina disc = user.buscarDiscPorAcronimo(acronimo);
@@ -190,6 +219,7 @@ public class Fachada
   }
   
 
+  //Adiciona String no final de uma lista
   public void appendStr(String[] lista, String elem)
   {
     for (int n = 0; n < lista.length; n++) {
@@ -200,20 +230,28 @@ public class Fachada
     }
   }
   
+  //Adicionar tags
   public void adicionarTag(Usuario user) {
+	  
+	System.out.println("\n\n--------------------------");
+	System.out.println("  Adiconar Tag");
+	System.out.println("--------------------------\n\n");
+  
     System.out.println("Digite a nova tag:");
     String novaTag = inputStr.nextLine();
     user.adicionarTag(novaTag);
   }
   
+  
+//  Exlcuir uma atividade pelo indice
   public void excluirAtividadePorIndice(Usuario user) {
     user.exibirAtividades();
     System.out.println("Digite o indice da atividade que deseja excluir:");
-    int indice = input.nextInt();
+    int indice = Ferramentas.leitorInteiro();
     System.out.println("1 - Desejo arquivar");
     System.out.println("2 - SÃƒÂ³ excluir");
     
-    int op = input.nextInt();
+    int op = Ferramentas.leitorInteiro();
     if (op == 1) {
       System.out.println("Arquivando");
       user.arquivarPorIndice(indice);
