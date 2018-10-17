@@ -207,6 +207,8 @@ public class Fachada
     Atividade atv = new Atividade(nomeAtv, deadline, tags, disc);
     
     user.CadastrarAtiv(atv);
+    System.out.println("==================");
+
   }
   
 // Cadastrar Dsciplina
