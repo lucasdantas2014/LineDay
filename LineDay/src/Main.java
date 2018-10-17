@@ -1,7 +1,7 @@
 import java.io.PrintStream;
 import java.util.Scanner;
 
-import database.DAO;
+// import database.DAO;
 import model.Ferramentas;
 import model.Usuario;
 
@@ -15,10 +15,10 @@ public class Main
   
   public static void menu()
   {
-    System.out.println("------Menu------");
+    System.out.println("\n\n------Menu------");
     System.out.println("0 - Sair ");
     System.out.println("1 - Editar Usuario ");
-    System.out.println("2 - Cadastrar Atividades:");
+    System.out.println("2 - Cadastrar Atividades");
     System.out.println("3 - Cadastrar Discplina");
     System.out.println("4 - Exibir Disciplina");
     System.out.println("5 - Exibir Atividades");
@@ -31,7 +31,7 @@ public class Main
   
   public static void main(String[] args)
   {
-    DAO DAO = new DAO();
+    // DAO DAO = new DAO();
     Scanner inputStr = new Scanner(System.in);
     Scanner input = new Scanner(System.in);
     
@@ -101,9 +101,7 @@ public class Main
           fachada.exibirAtividadesArquivadas(user);
 
         }
-        else if (opcao == 10) {
-          fachada.exibirDatasAtividades(user);
-        }
+        
         
       }
       catch (Exception e)

@@ -32,6 +32,6 @@ public class Disciplina {
   
   public String toString()
   {
-    return "  Acronimo: " + acronimo + "\nNome Professor: " + nomeProf + "\nNome da Disciplina: " + nomeDisc;
+    return "  Acronimo: " + acronimo + " - Nome Professor: " + nomeProf + " - Nome da Disciplina: " + nomeDisc;
   }
 }
