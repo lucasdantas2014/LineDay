@@ -7,25 +7,130 @@ import java.sql.SQLException;
 
 import model.Disciplina;
 
-public class DisciplinaDAO extends DAO{
+import model.Disciplina;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-	public void buscarDiscPorAcronimo(String ed){//Retornar Disciplina
-		String sql = "select * "
-					+"from usuario"
-					+"where acronimo = ?";
-		
-		try (Connection con = connect();
-	              PreparedStatement pstmt = con.prepareStatement(sql)) {
+import model.Usuario;
 
-	          pstmt.setString(1, ed);
-	          
-	          ResultSet result = pstmt.executeQuery();
-	          
-	          System.out.println(result);
+import java.sql.ResultSet;
 
-	      } catch (SQLException ex) {
-	          System.out.println(ex.getMessage());
-	      }
+public class DisciplinaDAO {
+	
+	private ConexaoBD conexao;
+	
+	public DisciplinaDAO() {
+		// cria o objeto para conexão com banco, porém não o inicializa
+		// a conexão deve ser aberta e, consequentemente, fechada durante o envio de comandos
+		// ao banco
+		this.conexao = new ConexaoBD();
+	}
+	
+	public void criarPessoa(Disciplina d) {
+		// abrindo a conexão com o BD
+		conexao.conectar();
+
+		try {
+			// usando um PreparedStatement com valores externos como parâmetros (representados pelo '?')
+			PreparedStatement pst = conexao.getConexao().prepareStatement("insert into disciplina(nome, professor, acronimo) values(?,?,?)");
+			// os métodos set devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
+			// sendo acessada. A sequência é determinada por índices, iniciando do valor 1.
+			pst.setString(1, d.getNomeDisc());
+			pst.setString(2, d.getNomeProf());
+			pst.setString(3, d.getAcronimo());
+			// solicitação da execução da query, após seu preparo
+			pst.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
 		
 	}
+	
+	// busca de pessoas por seu código de identificação no banco (id)
+	public Disciplina buscarDisciplina(int id) {
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		// busca utilizando o método de consulta do objeto ConexaoBD
+		ResultSet resultado = conexao.executarSQL("select * from disciplina where id = \'" + id + "\'");
+		Disciplina d = new Disciplina("", "", "");
+		
+		try {
+			resultado.next();
+			// os métodos get devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
+			// sendo acessada
+			String nome = resultado.getString("nome");
+			String professor = resultado.getString("professor");
+			String acronimo = resultado.getString("acronimo");
+			d.setNomeDisc(nome);
+			d.setNomeProf(professor);
+			d.setAcronimo(acronimo);
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+		return d;
+	}
+	
+	public void excluirPessoa(int id) {
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		
+		try {
+			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from usuario where id = \'" + id + "\'");
+			stm.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+	}
+
+	public void editarPessoa(int id, String nome, String curso) {
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		
+		try {
+			PreparedStatement stm = conexao.getConexao().prepareStatement("update pessoas set nome = ?, curso = ? "
+					+ "where id = \'" + id + "\'");
+			stm.setString(1, nome);
+			stm.setString(2, curso);
+			stm.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+	}
+	
+	public ArrayList<Usuario> verTodos() {
+		ArrayList<Usuario> pessoas = new ArrayList<>();
+		
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		ResultSet resultado = conexao.executarSQL("select * from usuario");
+		
+		try {
+			// para iterar sobre os resultados de uma consulta, deve-se utilizar o método next()
+			while (resultado.next()) {
+				String nomePessoa = resultado.getString("nome");
+				String curso = resultado.getString("curso");
+				pessoas.add(new Usuario(nomePessoa, curso));
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+		return pessoas;
+	}
+
 }

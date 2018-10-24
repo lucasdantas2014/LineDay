@@ -24,7 +24,16 @@ public class Usuario
 	  
   }
   
-  public void ordenarAtividades()
+  public Usuario(String nomePessoa, String curso) {
+	  this.tags[0] = "Dificil";
+	  this.tags[1] = "Importante";
+	  this.tags[2] = "Lembrar";
+	  
+	  this.Nome = nomePessoa;
+	  this.Curso = curso;
+}
+
+public void ordenarAtividades()
   {
     for (int i = 0; i < qtd_atividades - 1; i++) {
       Atividade tmp = atividades[i];

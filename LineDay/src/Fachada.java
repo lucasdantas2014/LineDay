@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import database.DisciplinaDAO;
+import database.UserDAO;
 // import database.UsuarioDAO;
 import model.Atividade;
 import model.Disciplina;
@@ -20,7 +22,8 @@ public class Fachada
   Scanner input = new Scanner(System.in);
   Scanner inputStr = new Scanner(System.in);
   SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-  // UsuarioDAO userDAO = new UsuarioDAO();
+  UserDAO userDAO = new UserDAO();
+  DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
   
 
   public Fachada() {}
@@ -64,7 +67,7 @@ public class Fachada
       }
     }
     
-//    userDAO.update(user);
+    userDAO.editarPessoa(user.getNome(), user.getCurso());
   }
   
 
@@ -232,7 +235,7 @@ public class Fachada
 
     System.out.println(disciplina);
 
-
+    disciplinaDAO.criarPessoa(disciplina);
     System.out.println("\n\n--------------------------");
     System.out.println("Fim do Cadastro.\nCadastro de Disciplina Completo");
     System.out.println("--------------------------\n\n");
