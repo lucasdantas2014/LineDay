@@ -9,13 +9,15 @@ public class Atividade implements Comparable<Atividade>
   private String[] tags = new String[50];
   private boolean andamento;
   private Disciplina disciplina;
+  private String descricao; 
   
-  public Atividade(String nome, Date deadline, String[] tags, Disciplina disciplina) {
+  public Atividade(String nome, Date deadline, String[] tags, Disciplina disciplina, String descricao) {
     this.nome = nome;
     this.deadline = deadline;
     this.tags = tags;
     andamento = true;
     this.disciplina = disciplina;
+    this.descricao = descricao;
   }
   
   public String getNome()
@@ -59,7 +61,17 @@ public class Atividade implements Comparable<Atividade>
     this.disciplina = disciplina;
   }
   
-  public String toString()
+ 
+  
+  public String getDescricao() {
+	return descricao;
+  }
+
+  public void setDescricao(String descricao) {
+	this.descricao = descricao;
+  }
+
+public String toString()
   {
     String tagsStr = "";
     for (int i = 0; tags[i] != null; i++) {
@@ -67,7 +79,7 @@ public class Atividade implements Comparable<Atividade>
     }
     
     return 
-      nome + "\nDeadLine:" + deadline + "\nTags:" + tagsStr + "\nAndamento " + andamento + "         disciplina: " + disciplina + "\n";
+      nome + "\nDeadLine:" + deadline + "\nTags:" + tagsStr + "\nAndamento " + andamento + "         disciplina: " + disciplina + "\nDescricao: " + this.descricao + "\n";
   }
   
   public int compareTo(Atividade outraAtividade) {

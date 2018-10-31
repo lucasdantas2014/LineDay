@@ -27,7 +27,7 @@ public class DisciplinaDAO {
 		this.conexao = new ConexaoBD();
 	}
 	
-	public void criarPessoa(Disciplina d) {
+	public void criarDisciplina(Disciplina d) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 
@@ -77,12 +77,32 @@ public class DisciplinaDAO {
 		return d;
 	}
 	
+	// busca de pessoas por seu código de identificação no banco (id)
+		public int buscarDisciplinaPorAcronimo(String acronimo) {
+			// abrindo a conexão com o BD
+			conexao.conectar();
+			// busca utilizando o método de consulta do objeto ConexaoBD
+			ResultSet resultado = conexao.executarSQL("select * from disciplina where acronimo = \'" + acronimo + "\'");
+			Disciplina d = new Disciplina("", "", "");
+			int id = -1;
+			try {
+				resultado.next();
+				id = resultado.getInt("id");
+			} catch (SQLException e) {
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				// o banco deve ser desconectado, mesmo quando a exceção é lançada
+				conexao.desconectar();
+			}
+			return id;
+		}
+	
 	public void excluirPessoa(int id) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		
 		try {
-			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from usuario where id = \'" + id + "\'");
+			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from disciplina where id = \'" + id + "\'");
 			stm.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -92,15 +112,16 @@ public class DisciplinaDAO {
 		}
 	}
 
-	public void editarPessoa(int id, String nome, String curso) {
+	public void editarPessoa(int id, String nome, String professor, String acronimo) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		
 		try {
-			PreparedStatement stm = conexao.getConexao().prepareStatement("update pessoas set nome = ?, curso = ? "
+			PreparedStatement stm = conexao.getConexao().prepareStatement("update disciplina set nome = ?, professor = ?, acronimo = ?"
 					+ "where id = \'" + id + "\'");
 			stm.setString(1, nome);
-			stm.setString(2, curso);
+			stm.setString(2, professor);
+			stm.setString(3, acronimo);
 			stm.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -110,8 +131,8 @@ public class DisciplinaDAO {
 		}
 	}
 	
-	public ArrayList<Usuario> verTodos() {
-		ArrayList<Usuario> pessoas = new ArrayList<>();
+	public ArrayList<Disciplina> verTodos() {
+		ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
 		
 		// abrindo a conexão com o BD
 		conexao.conectar();
@@ -120,9 +141,10 @@ public class DisciplinaDAO {
 		try {
 			// para iterar sobre os resultados de uma consulta, deve-se utilizar o método next()
 			while (resultado.next()) {
-				String nomePessoa = resultado.getString("nome");
-				String curso = resultado.getString("curso");
-				pessoas.add(new Usuario(nomePessoa, curso));
+				String nome = resultado.getString("nome");
+				String professor = resultado.getString("professor");
+				String acronimo = resultado.getString("acronimo");
+				disciplinas.add(new Disciplina(nome, professor, acronimo));
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -130,7 +152,7 @@ public class DisciplinaDAO {
 			// o banco deve ser desconectado, mesmo quando a exceção é lançada
 			conexao.desconectar();
 		}
-		return pessoas;
+		return disciplinas;
 	}
 
 }

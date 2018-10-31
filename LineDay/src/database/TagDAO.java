@@ -1,15 +1,6 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import model.Atividade;
-import model.Disciplina;
-
-import model.Disciplina;
+import model.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,59 +9,29 @@ import model.Usuario;
 
 import java.sql.ResultSet;
 
-public class AtividadeDAO {
+public class TagDAO {
 	
 	private ConexaoBD conexao;
 	
-	public AtividadeDAO() {
+	public TagDAO() {
 		// cria o objeto para conexão com banco, porém não o inicializa
 		// a conexão deve ser aberta e, consequentemente, fechada durante o envio de comandos
 		// ao banco
 		this.conexao = new ConexaoBD();
 	}
 	
-	public void criarAtividade(Atividade a) {
+	public void criarPessoa(String t) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 
 		try {
 			// usando um PreparedStatement com valores externos como parâmetros (representados pelo '?')
-			PreparedStatement pst = conexao.getConexao().prepareStatement("insert into atividade(nome, deadline, descricao, disciplina) values(?,?,?,?)");
-			PreparedStatement pst2 = conexao.getConexao().prepareStatement("insert into atividade(atividade,tag) values(?,?)");
+			PreparedStatement pst = conexao.getConexao().prepareStatement("insert into tag(nome) values(?)");
 			// os métodos set devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
 			// sendo acessada. A sequência é determinada por índices, iniciando do valor 1.
-			pst.setString(1, a.getNome());
-			pst.setDate(2, (Date) a.getDeadline());;
-			pst.setString(3, a.getDescricao());
-			DisciplinaDAO discDAO = new DisciplinaDAO();
-			int idDisc = discDAO.buscarDisciplinaPorAcronimo(a.getDisciplina().getAcronimo());
-			pst.setInt(4, idDisc);
-			
-			pst.execute();
-			
-			ResultSet resultado = conexao.executarSQL("select count(*) from atividade; ");
-			
-			
-			if(a.getTags()[0] == null){
-				pst2.setInt(1, resultado.getInt(1) );
-				pst2.setInt(2, -1);
-				pst2.execute();
-			}
-			else{
-				for(int index = 0; index < a.getTags().length; index++){
-					if(a.getTags()[index] == null){
-						break;
-					}
-					pst2.setInt(1, resultado.getInt(1));
-					TagDAO tagDAO = new TagDAO();
-					
-					
-					pst2.setInt(2, tagDAO.buscarTagPorNome(a.getTags()[index]));
-					pst2.execute();
-				}
-			}
-			
+			pst.setString(1, t);
 			// solicitação da execução da query, após seu preparo
+			pst.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
@@ -81,38 +42,57 @@ public class AtividadeDAO {
 	}
 	
 	// busca de pessoas por seu código de identificação no banco (id)
-	public Disciplina buscarDisciplina(int id) {
+	public Usuario buscarTag(int id) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		// busca utilizando o método de consulta do objeto ConexaoBD
-		ResultSet resultado = conexao.executarSQL("select * from disciplina where id = \'" + id + "\'");
-		Disciplina d = new Disciplina("", "", "");
+		ResultSet resultado = conexao.executarSQL("select * from usuario where id = \'" + id + "\'");
+		Usuario u = new Usuario();
 		
 		try {
 			resultado.next();
 			// os métodos get devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
 			// sendo acessada
-			String nome = resultado.getString("nome");
-			String professor = resultado.getString("professor");
-			String acronimo = resultado.getString("acronimo");
-			d.setNomeDisc(nome);
-			d.setNomeProf(professor);
-			d.setAcronimo(acronimo);
+			String nomePessoa = resultado.getString("nome");
+			String curso = resultado.getString("curso");
+			u.setNome(nomePessoa);
+			u.setCurso(curso);
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			// o banco deve ser desconectado, mesmo quando a exceção é lançada
 			conexao.desconectar();
 		}
-		return d;
+		return u;
 	}
+	
+	// busca de pessoas por seu código de identificação no banco (id)
+		public int buscarTagPorNome(String nome) {
+			// abrindo a conexão com o BD
+			conexao.conectar();
+			// busca utilizando o método de consulta do objeto ConexaoBD
+			ResultSet resultado = conexao.executarSQL("select id from tag where nome = \'" + nome + "\'");
+			int id = -1;
+			
+			try {
+				resultado.next();
+				id = resultado.getInt(1);
+				
+			} catch (SQLException e) {
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				// o banco deve ser desconectado, mesmo quando a exceção é lançada
+				conexao.desconectar();
+			}
+			return id;
+		}
 	
 	public void excluirPessoa(int id) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		
 		try {
-			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from disciplina where id = \'" + id + "\'");
+			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from usuario where id = \'" + id + "\'");
 			stm.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -122,16 +102,15 @@ public class AtividadeDAO {
 		}
 	}
 
-	public void editarPessoa(int id, String nome, String professor, String acronimo) {
+	public void editarPessoa(String nome, String curso) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		
 		try {
-			PreparedStatement stm = conexao.getConexao().prepareStatement("update disciplina set nome = ?, professor = ?, acronimo = ?"
-					+ "where id = \'" + id + "\'");
+			PreparedStatement stm = conexao.getConexao().prepareStatement("update usuario set nome = ?, curso = ? "
+					+ "where id = \'" + 1 + "\'");
 			stm.setString(1, nome);
-			stm.setString(2, professor);
-			stm.setString(3, acronimo);
+			stm.setString(2, curso);
 			stm.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -141,8 +120,8 @@ public class AtividadeDAO {
 		}
 	}
 	
-	public ArrayList<Disciplina> verTodos() {
-		ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+	public ArrayList<Usuario> verTodos() {
+		ArrayList<Usuario> pessoas = new ArrayList<>();
 		
 		// abrindo a conexão com o BD
 		conexao.conectar();
@@ -151,10 +130,9 @@ public class AtividadeDAO {
 		try {
 			// para iterar sobre os resultados de uma consulta, deve-se utilizar o método next()
 			while (resultado.next()) {
-				String nome = resultado.getString("nome");
-				String professor = resultado.getString("professor");
-				String acronimo = resultado.getString("acronimo");
-				disciplinas.add(new Disciplina(nome, professor, acronimo));
+				String nomePessoa = resultado.getString("nome");
+				String curso = resultado.getString("curso");
+				pessoas.add(new Usuario(nomePessoa, curso));
 			}
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
@@ -162,7 +140,7 @@ public class AtividadeDAO {
 			// o banco deve ser desconectado, mesmo quando a exceção é lançada
 			conexao.desconectar();
 		}
-		return disciplinas;
+		return pessoas;
 	}
 
 }

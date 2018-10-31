@@ -205,7 +205,8 @@ public class Fachada
       }
     }
     
-
+    System.out.println("Digite uma descrição da atividade:");
+    String descricao = inputStr.nextLine();
 
     Atividade atv = new Atividade(nomeAtv, deadline, tags, disc);
     
@@ -235,7 +236,7 @@ public class Fachada
 
     System.out.println(disciplina);
 
-    disciplinaDAO.criarPessoa(disciplina);
+    disciplinaDAO.criarDisciplina(disciplina);
     System.out.println("\n\n--------------------------");
     System.out.println("Fim do Cadastro.\nCadastro de Disciplina Completo");
     System.out.println("--------------------------\n\n");
