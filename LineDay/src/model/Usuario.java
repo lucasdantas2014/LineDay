@@ -22,6 +22,7 @@ public class Usuario
 	  this.tags[1] = "Importante";
 	  this.tags[2] = "Lembrar";
 	  
+	  
   }
   
   public Usuario(String nomePessoa, String curso) {

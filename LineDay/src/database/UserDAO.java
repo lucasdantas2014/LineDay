@@ -13,6 +13,17 @@ public class UserDAO {
 	
 	private ConexaoBD conexao;
 	
+	public Usuario inicializar(){
+		
+		DisciplinaDAO d = new DisciplinaDAO();
+		Usuario user = new Usuario();
+		user = buscarPessoa(1);
+		user.setDisciplinas(d.buscarTodasDisciplinas());
+		user.setAtividades(buscarTodasAtividade);
+		
+		
+	}
+	
 	public UserDAO() {
 		// cria o objeto para conexão com banco, porém não o inicializa
 		// a conexão deve ser aberta e, consequentemente, fechada durante o envio de comandos

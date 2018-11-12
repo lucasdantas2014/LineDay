@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import database.AtividadeDAO;
 import database.DisciplinaDAO;
 import database.UserDAO;
 // import database.UsuarioDAO;
@@ -24,6 +25,7 @@ public class Fachada
   SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
   UserDAO userDAO = new UserDAO();
   DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+  AtividadeDAO atividadeDAO = new AtividadeDAO();
   
 
   public Fachada() {}
@@ -208,9 +210,10 @@ public class Fachada
     System.out.println("Digite uma descrição da atividade:");
     String descricao = inputStr.nextLine();
 
-    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc);
+    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "");
     
     user.CadastrarAtiv(atv);
+    atividadeDAO.criarAtividade(atv);
     System.out.println("==================");
 
   }

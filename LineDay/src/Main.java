@@ -1,6 +1,9 @@
 import java.io.PrintStream;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import database.ConexaoBD;
 // import database.DAO;
 import model.Ferramentas;
 import model.Usuario;
@@ -41,6 +44,9 @@ public class Main
     
     boolean executar = true;
     
+
+   
+    	
 
     while (executar) {
       menu();

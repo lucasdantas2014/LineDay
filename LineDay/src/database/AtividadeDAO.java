@@ -36,11 +36,11 @@ public class AtividadeDAO {
 		try {
 			// usando um PreparedStatement com valores externos como parâmetros (representados pelo '?')
 			PreparedStatement pst = conexao.getConexao().prepareStatement("insert into atividade(nome, deadline, descricao, disciplina) values(?,?,?,?)");
-			PreparedStatement pst2 = conexao.getConexao().prepareStatement("insert into atividade(atividade,tag) values(?,?)");
+			PreparedStatement pst2 = conexao.getConexao().prepareStatement("insert into atv_tag(atividade,tag) values(?,?)");
 			// os métodos set devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
 			// sendo acessada. A sequência é determinada por índices, iniciando do valor 1.
 			pst.setString(1, a.getNome());
-			pst.setDate(2, (Date) a.getDeadline());;
+			pst.setDate(2, new java.sql.Date(a.getDeadline().getTime()));
 			pst.setString(3, a.getDescricao());
 			DisciplinaDAO discDAO = new DisciplinaDAO();
 			int idDisc = discDAO.buscarDisciplinaPorAcronimo(a.getDisciplina().getAcronimo());
@@ -48,8 +48,7 @@ public class AtividadeDAO {
 			
 			pst.execute();
 			
-			ResultSet resultado = conexao.executarSQL("select count(*) from atividade; ");
-			
+			ResultSet resultado = conexao.executarSQL("SELECT ID FROM tabela ORDER BY ID DESC LIMIT 1; ");
 			
 			if(a.getTags()[0] == null){
 				pst2.setInt(1, resultado.getInt(1) );

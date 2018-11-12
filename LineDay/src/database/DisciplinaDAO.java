@@ -50,6 +50,39 @@ public class DisciplinaDAO {
 		
 	}
 	
+	public Disciplina[] buscarTodasDisciplinas() {
+		// abrindo a conexão com o BD
+		
+		// busca utilizando o método de consulta do objeto ConexaoBD
+		Disciplina[] disicplinas = new Disciplina[1000];
+		for(int id = 1; id <= 50; id++){
+			
+		
+			conexao.conectar();
+			ResultSet resultado = conexao.executarSQL("select * from disciplina where id = \'" + id + "\'");
+			Disciplina d = new Disciplina("", "", "");
+			
+			try {
+				resultado.next();
+				
+				
+				String nome = resultado.getString("nome");
+				String professor = resultado.getString("professor");
+				String acronimo = resultado.getString("acronimo");
+				d.setNomeDisc(nome);
+				d.setNomeProf(professor);
+				d.setAcronimo(acronimo);
+				disciplinas[id] = d;
+			} catch (SQLException e) {
+				System.out.println("Erro: " + e.getMessage());
+			} finally {
+				// o banco deve ser desconectado, mesmo quando a exceção é lançada
+				conexao.desconectar();
+			}
+		}		
+		return disicplinas ;
+	}
+	
 	// busca de pessoas por seu código de identificação no banco (id)
 	public Disciplina buscarDisciplina(int id) {
 		// abrindo a conexão com o BD
@@ -60,8 +93,8 @@ public class DisciplinaDAO {
 		
 		try {
 			resultado.next();
-			// os métodos get devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
-			// sendo acessada
+			
+			
 			String nome = resultado.getString("nome");
 			String professor = resultado.getString("professor");
 			String acronimo = resultado.getString("acronimo");
