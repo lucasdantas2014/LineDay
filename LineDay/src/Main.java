@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import database.ConexaoBD;
+import database.UserDAO;
 // import database.DAO;
 import model.Ferramentas;
 import model.Usuario;
@@ -40,11 +41,13 @@ public class Main
     
     Fachada fachada = new Fachada();
     Usuario user = new Usuario();
+    UserDAO userDAO = new UserDAO();
     int opcao = -1;
     
     boolean executar = true;
     
 
+    user = userDAO.inicializar();
    
     	
 

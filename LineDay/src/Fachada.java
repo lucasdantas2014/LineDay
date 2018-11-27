@@ -210,10 +210,11 @@ public class Fachada
     System.out.println("Digite uma descrição da atividade:");
     String descricao = inputStr.nextLine();
 
-    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "");
+    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "", );
     
+    
+    int id = atividadeDAO.criarAtividade(atv);
     user.CadastrarAtiv(atv);
-    atividadeDAO.criarAtividade(atv);
     System.out.println("==================");
 
   }

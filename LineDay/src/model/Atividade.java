@@ -10,17 +10,23 @@ public class Atividade implements Comparable<Atividade>
   private boolean andamento;
   private Disciplina disciplina;
   private String descricao; 
+  private int id;
   
-  public Atividade(String nome, Date deadline, String[] tags, Disciplina disciplina, String descricao) {
+  public Atividade(String nome, Date deadline, String[] tags, Disciplina disciplina, String descricao, int id) {
     this.nome = nome;
     this.deadline = deadline;
     this.tags = tags;
     andamento = true;
     this.disciplina = disciplina;
     this.descricao = descricao;
+    this.id = id;
   }
   
-  public String getNome()
+  public Atividade(String nome2, java.sql.Date deadline2, Disciplina disc) {
+	
+}
+
+public String getNome()
   {
     return nome;
   }
