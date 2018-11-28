@@ -207,7 +207,7 @@ public class Fachada
       }
     }
     
-    System.out.println("Digite uma descri��o da atividade:");
+    System.out.println("Digite uma descrição da atividade:");
     String descricao = inputStr.nextLine();
 
     Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "", );
@@ -352,10 +352,12 @@ public class Fachada
         
         else if(op == 2){
         user.ExcluirAtividadePorIndice(indice);
+ 	AtividadeDAO atvDAO = new AtividadeDAO();
+	atvDAO.excluirAtividade(indice)
         System.out.println("===================");
         }
         else{
-          System.out.println("Opção Invalida\n");
+          System.out.println("OpÃ§Ã£o Invalida\n");
         }
       }
   }
