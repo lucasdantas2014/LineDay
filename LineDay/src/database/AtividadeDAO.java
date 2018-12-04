@@ -32,7 +32,7 @@ public class AtividadeDAO {
 	public int criarAtividade(Atividade a) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
-		int id;
+		int id = 0;
 		try {
 			// usando um PreparedStatement com valores externos como parâmetros (representados pelo '?')
 			PreparedStatement pst = conexao.getConexao().prepareStatement("insert into atividade(nome, deadline, descricao, disciplina) values(?,?,?,?)");
@@ -84,42 +84,55 @@ public class AtividadeDAO {
 		return id;
 	}
 	
+	
+	
+	
 	// busca de pessoas por seu código de identificação no banco (id)
-	public Disciplina buscarDisciplina(int id) {
+	public boolean VerificaSeExiste(int id) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		// busca utilizando o método de consulta do objeto ConexaoBD
-		ResultSet resultado = conexao.executarSQL("select * from disciplina where id = \'" + id + "\'");
-		Disciplina d = new Disciplina("", "", "");
-		
+		ResultSet resultado = conexao.executarSQL("select * from atividade where id = \'" + id + "\' and arquivado = false");
+		boolean bool = false;
 		try {
-			resultado.next();
-			// os métodos get devem ser escolhidos de acordo com os tipos dos atributos da entidade que está
-			// sendo acessada
-			String nome = resultado.getString("nome");
-			String professor = resultado.getString("professor");
-			String acronimo = resultado.getString("acronimo");
-			d.setNomeDisc(nome);
-			d.setNomeProf(professor);
-			d.setAcronimo(acronimo);
+			if(resultado.next()){
+				System.out.println(resultado.getInt("id"));
+				bool = true;
+			}
+			
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
 			// o banco deve ser desconectado, mesmo quando a exceção é lançada
 			conexao.desconectar();
 		}
-		return d;
+		return bool;
 	}
 	
-	
+	public void ArquivarrAtividade(int id) {
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		
+		try {
+			PreparedStatement stm = conexao.getConexao().prepareStatement("update atividade set arquivado = true where id = \'" + id + "\'");
+			stm.execute();
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+	}
 	
 	public void excluirAtividade(int id) {
 		// abrindo a conexão com o BD
 		conexao.conectar();
 		
 		try {
-			PreparedStatement stm = conexao.getConexao().prepareStatement("delete from atividade where id = \'" + id + "\'");
-			stm.execute();
+			PreparedStatement stm1 = conexao.getConexao().prepareStatement("delete from atv_tag where id = \'" + id + "\'");
+			stm1.execute();
+			PreparedStatement stm2 = conexao.getConexao().prepareStatement("delete from atividade where id = \'" + id + "\'");
+			stm2.execute();
 		} catch (SQLException e) {
 			System.out.println("Erro: " + e.getMessage());
 		} finally {
@@ -146,6 +159,8 @@ public class AtividadeDAO {
 			conexao.desconectar();
 		}
 	}
+	
+	
 	
 	public String[] BuscarTagsAtividade(int id){
 		String[] tags = new String[50];
@@ -174,8 +189,65 @@ public class AtividadeDAO {
 		return tags;
 	}
 	
+	public Atividade[] verTodosArquivados() {
+		Atividade[] atividades = new Atividade[1000];
+		DisciplinaDAO discDAO = new DisciplinaDAO();
+		int cont = 0;
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		ResultSet resultado = conexao.executarSQL("select * from atividade where arquivado = true");
+		
+		try {
+			// para iterar sobre os resultados de uma consulta, deve-se utilizar o método next()
+			while (resultado.next()) {
+				String nome = resultado.getString("nome");
+				Date deadline = resultado.getDate("deadline");
+				Disciplina disc = discDAO.buscarDisciplina(resultado.getInt("disciplina"));
+				String[] tags = BuscarTagsAtividade(resultado.getInt("id"));
+				int id = resultado.getInt("id");
+				atividades[cont] = new Atividade(nome, deadline, tags , disc, " ", id);
+				cont++;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+		return atividades;
+	}
+	
+	public Atividade[] verTodosNaoArquivados() {
+		Atividade[] atividades = new Atividade[1000];
+		DisciplinaDAO discDAO = new DisciplinaDAO();
+		int cont = 0;
+		// abrindo a conexão com o BD
+		conexao.conectar();
+		ResultSet resultado = conexao.executarSQL("select * from atividade where arquivado = false");
+		
+		try {
+			// para iterar sobre os resultados de uma consulta, deve-se utilizar o método next()
+			while (resultado.next()) {
+				String nome = resultado.getString("nome");
+				Date deadline = resultado.getDate("deadline");
+				Disciplina disc = discDAO.buscarDisciplina(resultado.getInt("disciplina"));
+				String[] tags = BuscarTagsAtividade(resultado.getInt("id"));
+				int id = resultado.getInt("id");
+				atividades[cont] = new Atividade(nome, deadline, tags , disc, " ", id);
+				cont++;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro: " + e.getMessage());
+		} finally {
+			// o banco deve ser desconectado, mesmo quando a exceção é lançada
+			conexao.desconectar();
+		}
+		return atividades;
+	}
+	
 	public Atividade[] verTodos() {
 		Atividade[] atividades = new Atividade[1000];
+		DisciplinaDAO discDAO = new DisciplinaDAO();
 		int cont = 0;
 		// abrindo a conexão com o BD
 		conexao.conectar();
@@ -186,7 +258,7 @@ public class AtividadeDAO {
 			while (resultado.next()) {
 				String nome = resultado.getString("nome");
 				Date deadline = resultado.getDate("deadline");
-				Disciplina disc = buscarDisciplina(resultado.getInt("disciplina"));
+				Disciplina disc = discDAO.buscarDisciplina(resultado.getInt("disciplina"));
 				String[] tags = BuscarTagsAtividade(resultado.getInt("id"));
 				int id = resultado.getInt("id");
 				atividades[cont] = new Atividade(nome, deadline, tags , disc, " ", id);

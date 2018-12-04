@@ -100,7 +100,7 @@ public void ordenarAtividades()
     ordenarAtividades();
     for (int n = 0; atividades[n] != null; n++) {
       System.out.println("<<----------------------------->>");
-      System.out.println("id da atividade: " + n + " - " + atividades[n]);
+      System.out.println("id da atividade: " + atividades[n].getId() + " - " + atividades[n]);
       System.out.println("<<----------------------------->>");
     }
   }
@@ -110,7 +110,7 @@ public void ordenarAtividades()
   {
     for (int n = 0; atividadesArquivadas[n] != null; n++)
     {
-      System.out.println(n + " - " + atividadesArquivadas[n]);
+      System.out.println(atividadesArquivadas[n].getId() + " - " + atividadesArquivadas[n]);
     }
   }
   
@@ -157,7 +157,6 @@ public void ordenarAtividades()
     System.out.println(indice);
     for (int n = 0; n < atividadesArquivadas.length; n++) {
       System.out.println("Entrou no loop");
-      System.out.println(atividadesArquivadas[n]);
       if (atividadesArquivadas[n] == null) {
         atividadesArquivadas[n] = atividades[indice];
         System.out.println(atividades[indice]);

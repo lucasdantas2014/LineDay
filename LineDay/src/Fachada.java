@@ -210,7 +210,7 @@ public class Fachada
     System.out.println("Digite uma descrição da atividade:");
     String descricao = inputStr.nextLine();
 
-    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "", );
+    Atividade atv = new Atividade(nomeAtv, deadline, tags, disc, "",0 );
     
     
     int id = atividadeDAO.criarAtividade(atv);
@@ -324,7 +324,7 @@ public class Fachada
       System.out.println("OBS:\n Digite -1 para camcelar e voltar ao menu.");
       int indice = Ferramentas.leitorInteiro();
 
-      if(indice > user.getQtd_atividades()){
+      if(atividadeDAO.VerificaSeExiste(indice) == false ){
         System.out.println("Id invalido; Tente novamente");
         continue;
       }
@@ -347,17 +347,18 @@ public class Fachada
         }
         else if (op == 1) {
           System.out.println("Arquivando");
-          user.arquivarPorIndice(indice);
+          user.arquivarPorIndice(indice -1);
+          atividadeDAO.ArquivarrAtividade(indice);
         }
         
         else if(op == 2){
-        user.ExcluirAtividadePorIndice(indice);
- 	AtividadeDAO atvDAO = new AtividadeDAO();
-	atvDAO.excluirAtividade(indice)
-        System.out.println("===================");
+	        user.ExcluirAtividadePorIndice(indice);
+		 	AtividadeDAO atvDAO = new AtividadeDAO();
+			atvDAO.excluirAtividade(indice);
+	        System.out.println("===================");
         }
         else{
-          System.out.println("OpÃ§Ã£o Invalida\n");
+          System.out.println("Op��o Invalida\n");
         }
       }
   }

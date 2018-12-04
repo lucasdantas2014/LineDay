@@ -21,7 +21,8 @@ public class UserDAO {
 		Usuario user = new Usuario();
 		user = buscarPessoa(1);
 		user.setDisciplinas(d.buscarTodasDisciplinas());
-		user.setAtividades(a.verTodos());
+		user.setAtividadesArquivadas(a.verTodosArquivados());
+		user.setAtividades(a.verTodosNaoArquivados());
 		user.setTags(t.verTodos());
 		
 		return user;
